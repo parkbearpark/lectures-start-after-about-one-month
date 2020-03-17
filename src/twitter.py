@@ -24,8 +24,7 @@ class ManageTwitter:
         param = {'status': tweet}
 
         try:
-            # request = self.twitter.post(url, params=param)
-            pprint.pprint(param)
+            request = self.twitter.post(url, params=param)
             return True
         except:
             return False
