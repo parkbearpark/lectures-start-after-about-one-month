@@ -1,4 +1,5 @@
-from datetime import date
+from datetime import datetime, date, timedelta, timezone
+import pytz
 import logging
 
 # import dotenv
@@ -7,11 +8,14 @@ from twitter import ManageTwitter
 
 
 class MakeTweet:
-    START_DATE = date.fromisoformat('2020-04-27')
+    def __init__(self):
+        self.START_DATE = date.fromisoformat('2020-04-27')
+        self.JST = pytz.timezone('Asia/Tokyo')
 
     def calc_remaining_days(self):
-        today = date.today()
-        remaining = self.START_DATE - today
+        today = datetime.now()
+        today.astimezone(self.JST)
+        remaining = self.START_DATE - today.date()
         return remaining.days
 
     def get_tweet_text(self):
@@ -22,24 +26,21 @@ class MakeTweet:
 
 
 def main():
-    # log_fmt = '%(asctime)s  :%(message)s'
-    # logging.basicConfig(
-    #     filename='../log/logger.log',
-    #     format=log_fmt,
-    #     level=logging.INFO
-    # )
-    # logging.info('start')
-    print('start')
+    log_fmt = '%(asctime)s  :%(message)s'
+    logging.basicConfig(
+        filename='../log/logger.log',
+        format=log_fmt,
+        level=logging.INFO
+    )
+    logging.info('start')
 
     make_tweet = MakeTweet()
     tweet_text = make_tweet.get_tweet_text()
-    print(tweet_text)
 
     manage_twitter = ManageTwitter()
     manage_twitter.post_tweet(tweet_text)
 
-    # logging.info('finish')
-    print('start')
+    logging.info('finish')
 
 
 if __name__ == "__main__":
