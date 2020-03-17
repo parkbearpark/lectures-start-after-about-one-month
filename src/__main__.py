@@ -36,6 +36,7 @@ def main():
 
     make_tweet = MakeTweet()
     tweet_text = make_tweet.get_tweet_text()
+    logging.info(tweet_text)
 
     manage_twitter = ManageTwitter()
     manage_twitter.post_tweet(tweet_text)
